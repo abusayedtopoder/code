@@ -1,0 +1,344 @@
+Trapezoidal Rule 
+Algorithm:
+1. Start
+2. Define function f(x)
+3. Read lower limit of integration, upper limit of
+integration and number of sub interval
+4. Calculate: step size = (upper limit - lower limit)/number of sub interval
+5. Set: integration value = f(lower limit) + f(upper limit)
+6. Set: i = 1
+7. If i > number of sub interval then goto
+8. Calculate: k = lower limit + i * h
+9. Calculate: Integration value = Integration Value + 2* f(k)
+10. Increment i by 1 i.e. i = i+1 and go to step 7
+11. Calculate: Integration value = Integration value * step size/2
+12. Display Integration value as required answer
+13. Stop
+#include <iostream>
+#include <cmath>
+
+/* Define function here */
+#define f(x) (1.0 / (1.0 + pow(x, 2)))
+
+using namespace std;
+
+int main()
+{
+    float lower, upper, integration = 0.0, stepSize;
+    int subInterval;
+
+    /* Input */
+    cout << "Enter lower limit of integration: ";
+    cin >> lower;
+    cout << "Enter upper limit of integration: ";
+    cin >> upper;
+    cout << "Enter number of sub intervals: ";
+    cin >> subInterval;
+
+    /* Calculation */
+    stepSize = (upper - lower) / subInterval;
+
+    /* Finding Integration Value */
+    for (int i = 0; i < subInterval; i++)
+    {
+        float x = lower + (i + 0.5) * stepSize;
+        integration += f(x);
+    }
+
+    integration *= stepSize;
+
+    cout << endl
+         << "Required value of integration is: " << integration;
+
+    return 0;
+}
+
+Simpson’s 1/3 Rule
+Algorithm:
+1. Start
+2. Define function f(x)
+3. Read lower limit of integration, upper limit of
+integration and number of sub interval
+4. Calcultae: step size = (upper limit - lower limit)/number of sub interval
+5. Set: integration value = f(lower limit) + f(upper limit)
+6. Set: i = 1
+7. If i > number of sub interval then goto
+8. Calculate: k = lower limit + i * h
+9. If i mod 2 =0 then
+Integration value = Integration Value + 2* f(k)
+Otherwise
+Integration Value = Integration Value + 4 * f(k)
+End If
+10. Increment i by 1 i.e. i = i+1 and go to step 7
+
+11. Calculate: Integration value = Integration value * step size/3
+12. Display Integration value as required answer
+13. Stop
+
+#include <iostream>
+#include <cmath>
+
+/* Define function here */
+#define f(x) (1.0 / (1.0 + pow(x, 2)))
+
+using namespace std;
+
+int main()
+{
+    float lower, upper, integration = 0.0;
+    int subInterval;
+
+    /* Input */
+    cout << "Enter lower limit of integration: ";
+    cin >> lower;
+    cout << "Enter upper limit of integration: ";
+    cin >> upper;
+    cout << "Enter number of sub intervals: ";
+    cin >> subInterval;
+
+    /* Calculation */
+    float stepSize = (upper - lower) / subInterval;
+
+    /* Finding Integration Value */
+    for (int i = 0; i <= subInterval; i++)
+    {
+        float x = lower + i * stepSize;
+        integration += f(x) * (i == 0 || i == subInterval ? 1 : i % 2 == 0 ? 2 : 4);
+    }
+
+    integration *= stepSize / 3.0;
+
+    cout << endl
+         << "Required value of integration is: " << integration;
+
+    return 0;
+}
+
+Simpson 3/8 Method
+
+Algorithm:
+1. Start
+2. Define function f(x)
+3. Read lower limit of integration, upper limit of
+integration and number of sub interval
+4. Calcultae: step size = (upper limit - lower limit)/number of sub interval
+5. Set: integration value = f(lower limit) + f(upper limit)
+6. Set: i = 1
+7. If i > number of sub interval then goto
+8. Calculate: k = lower limit + i * h
+9. If i mod 3 =0 then
+Integration value = Integration Value + 2* f(k)
+Otherwise
+Integration Value = Integration Value + 3 * f(k)
+End If
+10. Increment i by 1 i.e. i = i+1 and go to step 7
+11. Calculate: Integration value = Integration value * step size*3/8
+
+12. Display Integration value as required answer
+13. Stop
+#include <iostream>
+#include <cmath>
+
+/* Define function here */
+#define f(x) (1.0 / (1.0 + pow(x, 2)))
+
+using namespace std;
+
+int main()
+{
+    float lower, upper, integration = 0.0;
+    int subInterval;
+
+    /* Input */
+    cout << "Enter lower limit of integration: ";
+    cin >> lower;
+    cout << "Enter upper limit of integration: ";
+    cin >> upper;
+    cout << "Enter number of sub intervals: ";
+    cin >> subInterval;
+
+    /* Calculation */
+    float stepSize = (upper - lower) / subInterval;
+
+    /* Finding Integration Value */
+    integration = f(lower) + f(upper);
+
+    for (int i = 1; i <= subInterval - 1; i++)
+    {
+        float x = lower + i * stepSize;
+        integration += (i % 3 == 0 ? 2.0 : 3.0) * f(x);
+    }
+
+    integration *= stepSize * 3.0 / 8.0;
+
+    cout << endl
+         << "Required value of integration is: " << integration;
+
+    return 0;
+}
+
+Bisection Method
+
+ALGORITHM
+1. start
+2. Define function f(x)
+3. Choose initial guesses x0 and x1 such that f(x0)f(x1) < 0
+4. Choose pre-specified tolerable error e. 5. Calculate new approximated root as x2 = (x0 + x1)/2
+6. Calculate f(x0)f(x2)
+a. if f(x0)f(x2) < 0 then x0 = x0 and x1 = x2
+b. if f(x0)f(x2) > 0 then x0 = x2 and x1 = x1
+c. if f(x0)f(x2) = 0 then goto (8)
+7. if |f(x2)| > e then goto (5) otherwise goto (8)
+8. Display x2 as root. 9. Stop
+#include <iostream>
+#include <cmath>
+using namespace std;
+double f(double x) {
+    return cos(x) - x * exp(x);
+}
+double bisectionMethod(double x0, double x1, double tolerance) {
+    double x;
+    do {
+        x = (x0 + x1) / 2;
+        if (f(x0) * f(x) < 0)
+            x1 = x;
+        else
+            x0 = x;
+    } while (fabs(f(x)) > tolerance);
+    return x;
+}
+int main() {
+    double x0, x1, tolerance;
+    cout << "Enter first guess: ";
+    cin >> x0;
+    cout << "Enter second guess: ";
+    cin >> x1;
+    cout << "Enter tolerable error: ";
+    cin >> tolerance;
+    double root = bisectionMethod(x0, x1, tolerance);
+    cout << "Root is: " << root << endl;
+    return 0;
+}
+Regula Falsi (False Position) Method
+
+ALGORITHM
+1. start
+2. Define function f(x)
+3. Choose initial guesses x0 and x1 such that f(x0)f(x1) < 0
+4. Choose pre-specified tolerable error e. 5. Calculate new approximated root as:
+x2 = x0 - ((x0-x1) * f(x0))/(f(x0) - f(x1))
+6. Calculate f(x0)f(x2)
+a. if f(x0)f(x2) < 0 then x0 = x0 and x1 = x2
+b. if f(x0)f(x2) > 0 then x0 = x2 and x1 = x1
+c. if f(x0)f(x2) = 0 then goto (8)
+7. if |f(x2)|>e then goto (5) otherwise goto (8)
+8. Display x2 as root. 
+9. Stop
+#include <iostream>
+#include <cmath>
+
+#define f(x) (cos(x) - x * exp(x))
+
+using namespace std;
+
+int main() {
+    double x0, x1, x, f0, f1, f, e;
+    int step = 1;
+
+    cout.precision(6);
+    cout << fixed;
+
+    up:
+    cout << "Enter first guess: ";
+    cin >> x0;
+    cout << "Enter second guess: ";
+    cin >> x1;
+    cout << "Enter tolerable error: ";
+    cin >> e;
+
+    f0 = f(x0);
+    f1 = f(x1);
+
+    if (f0 * f1 > 0.0) {
+        cout << "Incorrect Initial Guesses." << endl;
+        goto up;
+    }
+
+    do {
+        x = x0 - (x0 - x1) * f0 / (f0 - f1);
+        f = f(x);
+        
+        cout << "Iteration-" << step << ": x = " << x << " and f(x) = " << f << endl;
+
+        if (f0 * f < 0) {
+            x1 = x;
+            f1 = f;
+        } else {
+            x0 = x;
+            f0 = f;
+        }
+
+        step++;
+    } while (fabs(f) > e);
+
+    cout << endl << "Root is: " << x << endl;
+    return 0;
+}
+Newton Raphson (NR) Method
+
+ALGORITHM
+1. Start
+2. Define function as f(x)
+3. Define first derivative of f(x) as g(x)
+4. Input initial guess (x0), tolerable error (e)
+and maximum iteration (N)
+5. Initialize iteration counter i = 1
+6. If g(x0) = 0 then print "Mathematical Error" and goto (12) otherwise goto (7)
+7. Calcualte x1 = x0 - f(x0) / g(x0)
+8. Increment iteration counter i = i + 1
+9. If i >= N then print "Not Convergent" and goto (12) otherwise goto (10)
+10. If |f(x1)| > e then set x0 = x1
+and goto (6) otherwise goto (11)
+11. Print root as x1
+12. Stop
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+#define f(x) (3*x - cos(x) - 1)
+#define g(x) (3 + sin(x))
+
+int main() {
+    float x0, x1, f0, g0, e;
+    int step = 1, N;
+
+    cout << "Enter initial guess, tolerable error, and maximum iteration: ";
+    cin >> x0 >> e >> N;
+
+    do {
+        g0 = g(x0);
+        f0 = f(x0);
+
+        if (g0 == 0.0) {
+            cout << "Mathematical Error.";
+            return 1;
+        }
+
+        x1 = x0 - f0 / g0;
+        x0 = x1;
+
+        step++;
+        if (step > N) {
+            cout << "Not Convergent.";
+            return 1;
+        }
+        f0 = f(x0);
+
+    } while (fabs(f0) > e);
+
+    cout << "Root is: " << x1;
+    return 0;
+}
+
+
+
