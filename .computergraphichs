@@ -1,0 +1,137 @@
+#include<windows.h>
+#include<GL/glut.h>
+
+float r=0.0;
+int hidden= 0;
+int contra = 1;
+int rong = 0;
+int wired = 0;
+
+void myWireSphere(GLfloat radius, int slices, int stacks) {
+  glPushMatrix();
+  glRotatef(-90.0, 1.0, 0.0, 0.0);
+  glutWireSphere(radius, slices, stacks);
+  glPopMatrix();
+}
+
+
+void init(void)
+{
+    glClearColor(0.0,0.0,0.0,0.0);
+}
+
+void spin (void)
+{
+    r+=.015;
+
+    glutPostRedisplay();
+
+}
+void display (void)
+{
+    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    if (hidden)
+        glEnable(GL_DEPTH_TEST);
+    else
+        glDisable(GL_DEPTH_TEST);
+    glLoadIdentity();
+    gluLookAt(0.0,0.0,5.0,0.0,0.0,0.0,0.0,1.0,0.0);
+    glColor3f(0.0,1.0,0.0); //radious color
+
+
+    if(wired){
+        myWireSphere(0.5,100,20);
+    }
+
+    else{
+        glutSolidSphere(0.5,20,20);
+
+
+    }
+
+
+    if (contra){
+        glRotatef(r*2,0,1.5,0);
+
+    }
+    else{
+        glRotatef(r*0,0,0,0);
+
+    }
+    if (rong){
+        glColor3f(0.0,1.0,0);
+    }
+    else{
+        glColor3f(1.0,0.0,1.0); //ball color
+    }
+    //glRotatef(r*2,0,1.5,0);//as like earth barshik goti
+    glTranslatef(0.0,0.0,1.0);
+    glRotatef(r*2,1,0,0);//nijei ghurtese
+    glRotatef(r*2,0,1,0);
+    glRotatef(r*2,0,0,1);
+   /* glColor3f(0.0,1.0,0.0);
+    glutSolidSphere(0.2,20,20);
+    glRotatef(rr*2,0,-1.5,0);//as like earth barshik goti
+    glTranslatef(0.0,0.0,1.0);
+    glRotatef(rr,1,0,0);//nijei ghurtese
+    glRotatef(rr,0,1,0);
+    glRotatef(rr,0,0,1); */
+//    glColor3f(0.0,0.0,1.0);
+    //glutSolidSphere(0.2,10,20); //changed shape to make the rotation visible
+
+    if(wired){
+        myWireSphere(0.2,10,20);
+    }
+
+    else{
+        glutSolidSphere(0.2,10,20);
+
+
+    }
+    //myWireSphere(0.2,10,20);
+    glutSwapBuffers();
+
+
+
+
+}
+
+void reshape (int w,int h)
+{
+    glViewport(0, 0, w, h);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(30, w/h, 1.0, 100.0);
+    glMatrixMode(GL_MODELVIEW);
+}
+void keyboard(unsigned char key, int x, int y)
+{
+    if(key == 'h')
+        hidden= !hidden;
+    if (key == 'c'){
+        contra = !contra;
+    }
+    if (key == 'r'){
+        rong = !rong;
+    }
+
+    if (key == 'k'){
+        wired = !wired;
+    }
+}
+int main(int argc, char** argv)
+{
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+    glutInitWindowSize(500, 500);
+    glutInitWindowPosition(100, 100);
+    glutCreateWindow("Orbiting Planet");
+    init ();
+    glutDisplayFunc(display);
+    glutReshapeFunc(reshape);
+    glutKeyboardFunc(keyboard);
+    glutIdleFunc(spin);
+    glutMainLoop();//eita chara continuous kaj cholbena
+    return 0;
+
+}
